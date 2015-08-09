@@ -8,3 +8,6 @@ Envite is about all inclusivity, from event organizers to club activities to the
 
 # Progression of Envite
 
+NOTE: I have started writing this blog mid-development of Envite.
+
+###`August 9, 2015`
