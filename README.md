@@ -15,4 +15,6 @@ NOTE: I have started writing this blog mid-development of Envite. The structure 
   
  The current login view looks pretty plain, and not particularly eye-catching and attention grabbing, however at least it's      not eye gorging worthy... hopefully.
  
- <img src="https://github.com/Altaes/EnviteBlog/blob/master/LoginScreen-8-09-15.png" height="400px" align="middle" />
+ <p align="center">
+ <img src="https://github.com/Altaes/EnviteBlog/blob/master/LoginScreen-8-09-15.png" height="400px" />
+ </p>
