@@ -8,6 +8,7 @@ Envite is about all inclusivity, from event organizers to club activities to the
 
 # Progression of Envite
 
-NOTE: I have started writing this blog mid-development of Envite.
+NOTE: I have started writing this blog mid-development of Envite. The structure of this blog will be clustered in sub-sections (i.e. LoginView, SubmittingEvents, Server-App Interactions, etc).
 
 ######`August 9, 2015`
+  
