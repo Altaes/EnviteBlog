@@ -12,5 +12,7 @@ NOTE: I have started writing this blog mid-development of Envite. The structure 
 
 ######`August 9, 2015`
   **LoginView**
-      The current login view looks pretty plain, and not particularly eye-catching and attention grabbing, however at least it's      not eye gorging worthy... hopefully.
-    
+  
+ The current login view looks pretty plain, and not particularly eye-catching and attention grabbing, however at least it's      not eye gorging worthy... hopefully.
+ 
+ ![LoginView](https://github.com/Altaes/EnviteBlog/blob/master/LoginScreen-8-09-15.png "LoginView")
