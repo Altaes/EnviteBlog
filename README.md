@@ -17,3 +17,4 @@ NOTE: I have started writing this blog mid-development of Envite. The structure 
  
  ![LoginView](https://github.com/Altaes/EnviteBlog/blob/master/LoginScreen-8-09-15.png "LoginView" | width=200px)
  [[https://github.com/Altaes/EnviteBlog/blob/master/LoginScreen-8-09-15.png|width=200px]]
+ \includegraphics[height=2in]{LoginScreen-8-09-15.png}
