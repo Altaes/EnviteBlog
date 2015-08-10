@@ -10,7 +10,8 @@ Envite is about all inclusivity, from event organizers to club activities to the
 
 NOTE: I have started writing this blog mid-development of Envite. The structure of this blog will be clustered in sub-sections (i.e. LoginView, SubmittingEvents, Server-App Interactions, etc).
 
-######`August 9, 2015`
+#####`August 9, 2015`
+<hr>
   **LoginView**
   
  The current login view looks pretty plain, and not particularly eye-catching and attention grabbing, however at least it's      not eye gorging worthy... hopefully. In the future, I hope to also provide my own login form with a email/password textfields and store user information in a separate compartment of my db.
