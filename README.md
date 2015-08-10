@@ -31,10 +31,12 @@ NOTE: I have started writing this blog mid-development of Envite. The structure 
  
  The current save button looks really plain, and I hope to make that button a little more aesthetically pleasing, but I'll save that for later because it's just a minor fix. The current auto-layout for this TableViewCell needs to be set, and there's a weird spacing on the right side of the table view cell that needs to be gotten rid of. There also needs to be 2 drop downs where the navigation bar is, one of the event search radius from user location, and another for categories that the events are placed into.
  
+ The TabBar icons look slightly too large, and close to the top of the tabbar itself. There's an ongoing bug with the interface builder and setting selected tab bar icons and unselected tabbar icons, but I won't get into that. The only way was to set the icons programatically and the spacing was a little off.
+ 
  **User created events (Tab to manage user created events, or user moderator ones)**
  
  <p align="center">
- <img src="https://github.com/Altaes/EnviteBlog/blob/master/MyEvents-8-09-15.png" />
+ <img src="https://github.com/Altaes/EnviteBlog/blob/master/MyEvents-8-09-15.png" height="400px" />
  </p>
  
  There's a bunch of placeholder table view cells so I can get a feel for what the user might want or for me to get an idea on how to further make the process of managing user created events simple yet dutiful.
@@ -42,7 +44,7 @@ NOTE: I have started writing this blog mid-development of Envite. The structure 
  On this view controller, the "Create an Event" View controller can be modally presented:
  
  <p align="center">
- <img src="https://github.com/Altaes/EnviteBlog/blob/master/CreateEventPresentation-8-09-15.gif" />
+ <img src="https://github.com/Altaes/EnviteBlog/blob/master/CreateEventPresentation-8-09-15.gif" height="400px" />
  </p>
  
  The form works great, but there's still some awkwardness to it design wise (well that's what I believe). I still need to add the function of a user dragging and dropping a pin via the Map Kit, and then updating the textfield with the human address. I imagine the process is just a simple reverse geocoding, where I first get the MKLocation and then generate a top 10 or so results of addresses and return the top 1, and replace the textfield with that address.
@@ -52,7 +54,7 @@ NOTE: I have started writing this blog mid-development of Envite. The structure 
  **Settings page for the user**
  
  <p align="center">
- <img src="https://github.com/Altaes/EnviteBlog/blob/master/Settings-8-09-15.png" />
+ <img src="https://github.com/Altaes/EnviteBlog/blob/master/Settings-8-09-15.png" height="400px" />
  </p>
  
  This page is non-existent and I haven't thought about any extra user tools to put here, other than logging out, deleting account, sharing to friends, etc. I could put default search radius for events here, and maybe some other preferences to optimize searching, however that's up for debate.
