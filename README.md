@@ -78,19 +78,19 @@ NOTE: I have started writing this blog mid-development of Envite. The structure 
 Currently I have a huge problem in my event feed: The events are not loading on startup. I went back and searched online for TableViewController(TVC) behaviours and found out that before loading, the TVC would call `- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section` to relay the number of cells to `- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath` which would in turn create the cells. By doing a little debugging (Ok, not a whole lot, just adding a single breakpoint), I found out that the first mentioned TVC method would return 0 as the number of cells to create. Oh, that must explain why there's no loaded event cells; well that's partially true. 
 
 <p align="center">
-<img src="https://github.com/willtchiu/EnviteBlog/blob/master/objectArrayZero.png" height="200px" />
+<img src="https://github.com/willtchiu/EnviteBlog/blob/master/objectArrayZero.png" height="400px" />
 </p>
 
 In the meantime, the event feed would just show this infinite running activity indicator (How to drive away all your users 101: replace home page with just an infinite running activity indicator):
 
 <p align="center">
-<img src="https://github.com/willtchiu/EnviteBlog/blob/master/infiniteLoadingftw.png" height="200px" />
+<img src="https://github.com/willtchiu/EnviteBlog/blob/master/infiniteLoadingftw.png" height="400px" />
 </p>
 
 It seems to me that at the point that the TVC is getting ready to load its subviews, or in this case determining and creating the cells to be displayed, that the event data request has not been fully completed by the Data Handler. In order to further tet my hypothesis I decided to check if the TVC has any means of actually knowing when the event data has been successfully loaded by the Data Hander, and to my embarassment there was no communication between the Data Handler and my TVC. So I went back and decided to make my TVC the delegate for my Data Handler and implemented `-(void)didFinishLoadingEventData` the callback method in my TVC and set up the protocols respectively. Ok, I am now calling my delegate method whenever the Data Handler has completely finished loading the event data, this should work right? Well, as in most cases, there's always something that goes wrong, and my case was no different.
 
 <p align="center">
-<img src="https://github.com/willtchiu/EnviteBlog/blob/master/infiniteLoadingftw.png" height="200px" />
+<img src="https://github.com/willtchiu/EnviteBlog/blob/master/infiniteLoadingftw.png" height="400px" />
 </p>
 Please make it stop. (I'm not even going to give you a different screenshot)
 
@@ -105,7 +105,7 @@ dispatch_async(dispatch_get_main_queue(), ^{
 And when I ran my app again, it worked!
 
 <p align="center">
-<img src="https://github.com/willtchiu/EnviteBlog/blob/master/EventFeedLoadOnStartup.gif" height="200px" />
+<img src="https://github.com/willtchiu/EnviteBlog/blob/master/EventFeedLoadOnStartup.gif" height="400px" />
 </p>
 
 **At the end of the day..**
