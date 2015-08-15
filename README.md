@@ -69,4 +69,8 @@ NOTE: I have started writing this blog mid-development of Envite. The structure 
  
  I need to figure out how to background download images (Most likely using SDWebImage), and then create a launchscreen and have a hanging loader on the LoginView so that the event feed is fully set up before the user gets to it. Because as of now, it 50/50 works... on a good day, but it's more like 30/70 success/failure because the user reaches the event feed too early and the image hasn't been loaded from the server yet.
  
- 
+<hr>
+####`August 14 2015`
+<hr>
+
+**Event Feed**
