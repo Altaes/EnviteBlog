@@ -99,3 +99,8 @@ dispatch_async(dispatch_get_main_queue(), ^{
  }
 });
 ````
+
+And when I ran my app again, it worked!
+
+**At the end of the day..**
+This was definitely one of my more challenging problems, so far (Still have to get to triple-querying on the server-side, oh goodness). It was interesting to see how iOS delegates the NSURLConnection and other NSOperations in a background thread, and how it improves application efficiency and thus become less overbearing on the user. I've also become better at delegates through this problem and learned how to properly implement a singleton model (Thank you so much CS12: Basic Data Structures). I can now see how iOS delegation is such an important concept to know and also such a powerful tool when used correctly.
