@@ -91,8 +91,8 @@ It seems to me that at the point that the TVC is getting ready to load its subvi
 
 <p align="center">
 <img src="https://github.com/willtchiu/EnviteBlog/blob/master/infiniteLoadingftw.png" height="400px" />
-</p>
 Please make it stop. (I'm not even going to give you a different screenshot)
+</p>
 
 After searching online, most notably stack overflow, I reaized that my Data Handler was running its NSURLConnection requests on a different thread, as it is a NSOperation. I also found another key piece of information that would help me greatly: The View Controllers are always ran on the main thread and I was trying to call the delegate method to reload the table view data on the secondary thread. This was a big no no, because not only did I not actually reload the data, I was stuck with that horrid activity indicator with no loaded events. So I decided to dispatch a request to call the delegate method in the main thread:
 ````
