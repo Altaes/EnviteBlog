@@ -29,7 +29,7 @@ NOTE: I have started writing this blog mid-development of Envite. The structure 
  <img src="https://github.com/Altaes/EnviteBlog/blob/master/eventFeed-8-09-15.png" height="400px" />
  </p>
  
- There's currently 1 document in the database as a test event, and that test information is stored in the db and the image is stored elsewhere.
+ There's currently 1 document in the database as a test event, and that test information is stored in the db and the image is stored elsewhere. There's also a huge problem with the loading of events on startup, the screenshot that you see here is when I click on another tab, let's say "My Events", and then click back to "Event Feed". The events only show up if you follow the aformentioned clicking process, which is seriously a huge UX problem that I need to solve.
  
  The current save button looks really plain, and I hope to make that button a little more aesthetically pleasing, but I'll save that for later because it's just a minor fix. The current auto-layout for this TableViewCell needs to be set, and there's a weird spacing on the right side of the table view cell that needs to be gotten rid of. There also needs to be 2 drop downs where the navigation bar is, one of the event search radius from user location, and another for categories that the events are placed into.
  
@@ -73,6 +73,9 @@ NOTE: I have started writing this blog mid-development of Envite. The structure 
 ####`August 14 2015`
 <hr>
 
+**Decisions, Decisions, Decisions**
+I've implemented SDWebImage trivially inside my table view, which they graciously provided a method for. I've decided not to have a hanging loading screen to make the user wait until the event feed has been fully loaded and set up. I've instead decided to dynamically check for when events are loaded so that the event feed will properly reload when there are new events. This is what I think is the best UX approach and if I were to plop down a loading screen I'm fearing that it'll deter users away from how slow it'll look. Hopefully I can get a 100/100 working success rate on loading the event feed on startup. Let's get coding!
+
 **Event Feed**
 
 Currently I have a huge problem in my event feed: The events are not loading on startup. I went back and searched online for TableViewController(TVC) behaviours and found out that before loading, the TVC would call `- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section` to relay the number of cells to `- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath` which would in turn create the cells. By doing a little debugging (Ok, not a whole lot, just adding a single breakpoint), I found out that the first mentioned TVC method would return 0 as the number of cells to create. Oh, that must explain why there's no loaded event cells; well that's partially true. 
@@ -91,10 +94,8 @@ It seems to me that at the point that the TVC is getting ready to load its subvi
 
 <p align="center">
 <img src="https://github.com/willtchiu/EnviteBlog/blob/master/infiniteLoadingftw.png" height="400px" />
-<p aign="right">
-Please make it stop. (I'm not even going to give you a different screenshot)
 </p>
-</p>
+`Please make it stop. (I'm not even going to give you a different screenshot)`
 
 After searching online, most notably stack overflow, I reaized that my Data Handler was running its NSURLConnection requests on a different thread, as it is a NSOperation. I also found another key piece of information that would help me greatly: The View Controllers are always ran on the main thread and I was trying to call the delegate method to reload the table view data on the secondary thread. This was a big no no, because not only did I not actually reload the data, I was stuck with that horrid activity indicator with no loaded events. So I decided to dispatch a request to call the delegate method in the main thread:
 ````
