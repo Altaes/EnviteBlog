@@ -75,23 +75,26 @@ NOTE: I have started writing this blog mid-development of Envite. The structure 
 
 **Event Feed**
 
-Currently I have a huge problem in my event feed: The events are not loading on startup. I went back and searched online for TableViewController(TVC) behaviours and found out that before loading, the TVC would call `- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section` to relay the number of cells to `- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath` which would in turn create the cells. By doing a little debugging (Ok, not a whole lot, just adding a single breakpoint), I found out that the first mentioned TVC method would return 0 as the number of cells to create. Oh, that must explain why there's no loaded event cells; well that's partially true. In the meantime, the event feed would just show this infinite running activity indicator.
+Currently I have a huge problem in my event feed: The events are not loading on startup. I went back and searched online for TableViewController(TVC) behaviours and found out that before loading, the TVC would call `- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section` to relay the number of cells to `- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath` which would in turn create the cells. By doing a little debugging (Ok, not a whole lot, just adding a single breakpoint), I found out that the first mentioned TVC method would return 0 as the number of cells to create. Oh, that must explain why there's no loaded event cells; well that's partially true. 
 
+<p align="center">
+<img src="https://github.com/willtchiu/EnviteBlog/blob/master/objectArrayZero.png" height="200px" />
+</p>
 
+In the meantime, the event feed would just show this infinite running activity indicator (How to drive away all your users 101: replace home page with just an infinite running activity indicator):
 
-How to drive away all your users 101: replace home page with just an infinite running activity indicator.
-
-
+<p align="center">
+<img src="https://github.com/willtchiu/EnviteBlog/blob/master/infiniteLoadingftw.png" height="200px" />
+</p>
 
 It seems to me that at the point that the TVC is getting ready to load its subviews, or in this case determining and creating the cells to be displayed, that the event data request has not been fully completed by the Data Handler. In order to further tet my hypothesis I decided to check if the TVC has any means of actually knowing when the event data has been successfully loaded by the Data Hander, and to my embarassment there was no communication between the Data Handler and my TVC. So I went back and decided to make my TVC the delegate for my Data Handler and implemented `-(void)didFinishLoadingEventData` the callback method in my TVC and set up the protocols respectively. Ok, I am now calling my delegate method whenever the Data Handler has completely finished loading the event data, this should work right? Well, as in most cases, there's always something that goes wrong, and my case was no different.
 
-
-
+<p align="center">
+<img src="https://github.com/willtchiu/EnviteBlog/blob/master/infiniteLoadingftw.png" height="200px" />
+</p>
 Please make it stop. (I'm not even going to give you a different screenshot)
 
-
 After searching online, most notably stack overflow, I reaized that my Data Handler was running its NSURLConnection requests on a different thread, as it is a NSOperation. I also found another key piece of information that would help me greatly: The View Controllers are always ran on the main thread and I was trying to call the delegate method to reload the table view data on the secondary thread. This was a big no no, because not only did I not actually reload the data, I was stuck with that horrid activity indicator with no loaded events. So I decided to dispatch a request to call the delegate method in the main thread:
-
 ````
 dispatch_async(dispatch_get_main_queue(), ^{
  if (self.delegate) {
@@ -99,8 +102,11 @@ dispatch_async(dispatch_get_main_queue(), ^{
  }
 });
 ````
-
 And when I ran my app again, it worked!
+
+<p align="center">
+<img src="https://github.com/willtchiu/EnviteBlog/blob/master/EventFeedLoadOnStartup.gif" height="200px" />
+</p>
 
 **At the end of the day..**
 This was definitely one of my more challenging problems, so far (Still have to get to triple-querying on the server-side, oh goodness). It was interesting to see how iOS delegates the NSURLConnection and other NSOperations in a background thread, and how it improves application efficiency and thus become less overbearing on the user. I've also become better at delegates through this problem and learned how to properly implement a singleton model (Thank you so much CS12: Basic Data Structures). I can now see how iOS delegation is such an important concept to know and also such a powerful tool when used correctly.
