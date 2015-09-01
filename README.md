@@ -121,3 +121,11 @@ And when I ran my app again, it worked!
  I need to create a separate database to manage users and user information. I also need to decide whether or not I should persist events that are marked as "Join" or "Save" in the user's local directory, or if it's better to track that information in the database and then request those events when the user decides to go to "My Events". The server would then query those specific events by ID, which those listed events should be under the user's data set. 
  
  TL;DR I need to add user unique interaction and real user interaction for that matter.
+ 
+<hr>
+####`August 31 2015`
+<hr>
+
+**Persisting User Data**
+
+ In deciding how to persist user data, two solutions come into mind. First, user data can be persisted to the server and then retrieved whenever the user logs in. However, this becomes a burden to the server during times of heavy traffic, as each time a user chooses to open an app, a request will be made to retrieve their information. Therefore, I decided that it was much better to persist the user information and any other necessary info locally in NSDirectories. This way, the server wouldn't need to handle another unecessary get request. Whenever the user decides to open the app for the first time, their user info will be persisted locally as well as any other needed information. When the user exits the app and opens it again at a later time, their information would then be loaded from the locally persisted user information.
