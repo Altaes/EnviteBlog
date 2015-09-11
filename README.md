@@ -133,7 +133,7 @@ And when I ran my app again, it worked!
  As for updating user information, such as their joined and saved events, the user data will then be persisted to the server first then saved locally. For now, the system works well, however in foresight I need to deal with users who delete the app, as that invalidates the fbAccessToken and thus creates a new user. I'm thinking of importing user data from the server on app startup to curb this problem of creating multiple documents wasting db space, however importing user data itself is another GET request. I'll leave the system as it is now, and implementing a fix for this issue in the future would be trivial.
  
  <hr>
- ####`September 10 2015`
+ ####`September 10 2015`####
  <hr>
  
  **Personalizing User Experience (The struggle with JSON.parse() and Mongodb JSON)**
@@ -167,4 +167,5 @@ db.events.find(
  After being able to successfully query user joined events, I linked the join and save buttons to add respective events to the user data fairly trivially. The only issue I see now is that if users join an event, they shouldn't be able to save that same event. I'll have to add that functionality next. Another problem would be if users tried to join an event which they have already joined, and in this case, I show an UIAlertView to the user. This alert proves to be important because it reduces another meaningless query to add an event that the user has already joined (Another foresight server latency reducing functionality).
  
  **What still needs to be done**
+ 
   Apart from the small issue with users being able to save events which they have already joined, querying by category and querying events at a certain distance from the user needs to be implemented. I'll look forward to implementing two queries, one with $geoWithin (box query) and another standard category query.
