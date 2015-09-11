@@ -129,3 +129,42 @@ And when I ran my app again, it worked!
 **Persisting User Data**
 
  In deciding how to persist user data, two solutions come into mind. First, user data can be persisted to the server and then retrieved whenever the user logs in. However, this becomes a burden to the server during times of heavy traffic, as each time a user chooses to open an app, a request will be made to retrieve their information. Therefore, I decided that it was much better to persist the user information and any other necessary info locally in NSDirectories. This way, the server wouldn't need to handle another unecessary get request. Whenever the user decides to open the app for the first time, their user info will be persisted locally as well as any other needed information. When the user exits the app and opens it again at a later time, their information would then be loaded from the locally persisted user information.
+ 
+ As for updating user information, such as their joined and saved events, the user data will then be persisted to the server first then saved locally. For now, the system works well, however in foresight I need to deal with users who delete the app, as that invalidates the fbAccessToken and thus creates a new user. I'm thinking of importing user data from the server on app startup to curb this problem of creating multiple documents wasting db space, however importing user data itself is another GET request. I'll leave the system as it is now, and implementing a fix for this issue in the future would be trivial.
+ 
+ <hr>
+ ####`September 10 2015`
+ <hr>
+ 
+ **Personalizing User Experience (The struggle with JSON.parse() and Mongodb JSON)**
+ 
+ At the very beginning I plastered on the 'Join' and 'Save' buttons to each event cell, and I've been meaning to get to implement their functionality since. I decided to put that on hold until I implemented the user persisting. In examining the best design process, I decided to implement the querying of user events which the user might've already created and therefore they automatically joined. I thought that if a user creates an event, it wouldn't be a too bad assumption to say that that user was joining that event. Therefore, I focused on the creation of the querying request. In order to query from the mongodb through the server, I needed to create a JSON string that would be parsable by JSON.parse() (Which I later found out through lots of trial error and frustration that using the mongodb-extended-json parser was much better for clear reasons). In figuring out what I should query, I decided I should outline the query format and what kind of response I wanted. To keep low bandwith (not that it matters now, but in foresight of the possible future), I should only make one query request, submitting an array or collection of event IDs that I want the server to return to me, also in array format. 
+ 
+ At first, I tried to use $in, a query selector from mongodb, and passed in an array of ObjectIDs expecting the server to return to me event objects whose ID matching to the ones in the array. Not too bad right? Well, mongodb + JSON parsing by string is such a tremendous tedious process. Consider the code below:
+ ````
+ //This code wouldn't parse with JSON.parse(), and also wouldn't parse with the mongodb-extended-json EJSON.parse() method.
+ query = JSON.parse({"_id":{"$in":[ObjectId("55e65694db9a82b61633a1ef"),ObjectId("55e6576fdb9a82b61633a1f1"),ObjectId("55e657e6db9a82b61633a1f3"),ObjectId("55e6589bdb9a82b61633a1f5")]}});
+ 
+ //The string should've been formatted as:
+{
+    "_id": {
+        "$in": [
+            ObjectId("55e65694db9a82b61633a1ef"),
+            ObjectId("55e6576fdb9a82b61633a1f1"),
+            ObjectId("55e657e6db9a82b61633a1f3"),
+            ObjectId("55e6589bdb9a82b61633a1f5")
+        ]
+    }
+}
+````
+ Then I decided to ssh into my mongodb server and query the documents directly with the same JSON string:
+````
+db.events.find(
+{"_id":{"$in":[ObjectId("55e65694db9a82b61633a1ef"),ObjectId("55e6576fdb9a82b61633a1f1"),ObjectId("55e657e6db9a82b61633a1f3"),ObjectId("55e6589bdb9a82b61633a1f5")]}})
+````
+ And...mysteriously it works! I even tried using '$oid' instead of ObjectId(), and still the JSON parser wouldn't be able to parse my string. I think the issue is with mongoDB extended JSON parser not being able to parse strict/shell mode syntax. I'll have to look further into this and do some tests myself.
+
+ After being able to successfully query user joined events, I linked the join and save buttons to add respective events to the user data fairly trivially. The only issue I see now is that if users join an event, they shouldn't be able to save that same event. I'll have to add that functionality next. Another problem would be if users tried to join an event which they have already joined, and in this case, I show an UIAlertView to the user. This alert proves to be important because it reduces another meaningless query to add an event that the user has already joined (Another foresight server latency reducing functionality).
+ 
+ **What still needs to be done**
+  Apart from the small issue with users being able to save events which they have already joined, querying by category and querying events at a certain distance from the user needs to be implemented. I'll look forward to implementing two queries, one with $geoWithin (box query) and another standard category query.
