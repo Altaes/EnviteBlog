@@ -133,7 +133,7 @@ And when I ran my app again, it worked!
  As for updating user information, such as their joined and saved events, the user data will then be persisted to the server first then saved locally. For now, the system works well, however in foresight I need to deal with users who delete the app, as that invalidates the fbAccessToken and thus creates a new user. I'm thinking of importing user data from the server on app startup to curb this problem of creating multiple documents wasting db space, however importing user data itself is another GET request. I'll leave the system as it is now, and implementing a fix for this issue in the future would be trivial.
  
  <hr>
- ####`September 10 2015`####
+ ####`September 10 2015`
  <hr>
  
  **Personalizing User Experience (The struggle with JSON.parse() and Mongodb JSON)**
