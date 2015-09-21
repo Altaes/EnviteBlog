@@ -1,6 +1,16 @@
 # EnviteBlog
 A blog that tracks my progress on the iOS App, Envite, that I'm currently developing.
 
+## Technologies Used:
+* MEN Stack (MongoDB, Express, Node.js) Backend Stack
+
+## Challenges:
+1. Following a data efficient design pattern
+  * Store events in running memory in singleton design pattern.
+  * Minimize server traffic and app latency by persisting user data locally instead of pulling from server on app startup
+2. Learning how to properly utilize iOS delegation
+  * Created proper delegatation between event data handler and a table view controller loading data from data handler
+
 # What is Envite[not-sic]?
  Envite is an event driven networking app directed at college students and small to medium sized communities. Many of times we have this internal urge to just get out there and do something with our peers, and yet many a times we simply can't find a good event to go to. Here is where Envite steps into the picture, an app that allows peers around you to submit categorized events so you don't have to scourage Facebook for something to do. Are you part of a club? Great! You can submit your event through the app, and you'll be guaranteed free publicity. Do you just want to throw down a LAN session with your peers? Awesome! You too, can freely publicize your event so EVERYONE can see the great LAN you throw. Do you just want to sponantaneously hang with your fellow peers at the beach? Gnarly! You can also publicize your event.
 
