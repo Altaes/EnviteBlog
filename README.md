@@ -3,12 +3,16 @@ A blog that tracks my progress on the iOS App, Envite, that I'm currently develo
 
 ## Technologies Used:
 * MEN Stack (MongoDB, Express, Node.js) Backend Stack
+  * I chose MongoDB because my events database is quite literally a database. Although I will have users and whatnot, the app is not revolved around users, but around the events. Therefore, there will be minimal relationships with my events documents and users, thus leading me to choose MongoDB.
+* Objective-C
 
-## Challenges:
+## Challenges/Accomplishments:
 1. Following a data efficient design pattern
   * Store events in running memory in singleton design pattern.
   * Minimize server traffic and app latency by persisting user data locally instead of pulling from server on app startup
-2. Learning how to properly utilize iOS delegation
+2. Used IaaS instead of PaaS and BaaS, to further understand the inner workings of server to client relations
+  * Set-up server script with Node.js/Express, and MongoDB to store my documents.
+3. Learning how to properly utilize iOS delegation
   * Created proper delegatation between event data handler and a table view controller loading data from data handler
 
 # What is Envite[not-sic]?
